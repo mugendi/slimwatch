@@ -40,11 +40,11 @@ Whenever changes occur, the callback is called with an array listing all the cha
 
 [
   {
-    action: 2,
-    directory: '/home/node/slimwatch', 
-    file: 'index.js',
-    file_path: '/home/node/slimwatch/index.js',
-    action_name: 'modified'
+    "action": 2,
+    "directory": "/home/node/slimwatch", 
+    "file": "index.js",
+    "file_path": "/home/node/slimwatch/index.js",
+    "action_name": "modified"
   }
 ]
 
