@@ -1,32 +1,32 @@
 {
-  "name": "slimwatch",
-  "version": "1.0.0",
-  "description": "Wrapper around nsfw to ease watching directories. ",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "file",
-    "directory",
-    "watch",
-    "filewatch",
-    "file-watch",
-    "directory-watch"
-  ],
-  "author": "Anthony Mugendi <ngurumugz@gmail.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mugendi/slimwatch.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mugendi/slimwatch/issues"
-  },
-  "homepage": "https://github.com/mugendi/slimwatch#readme",
-  "dependencies": {
-    "lodash": "^4.17.20",
-    "mem": "^6.1.1",
-    "nsfw": "^2.0.0"
-  }
+    "name": "slimwatch",
+    "version": "1.0.1",
+    "description": "Wrapper around nsfw to ease watching directories. ",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "file",
+        "directory",
+        "watch",
+        "filewatch",
+        "file-watch",
+        "directory-watch"
+    ],
+    "author": "Anthony Mugendi <ngurumugz@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mugendi/slimwatch.git"
+    },
+    "bugs": {
+        "url": "https://github.com/mugendi/slimwatch/issues"
+    },
+    "homepage": "https://github.com/mugendi/slimwatch#readme",
+    "dependencies": {
+        "lodash": "^4.17.20",
+        "mem": "^6.1.1",
+        "nsfw": "^2.0.0"
+    }
 }
