@@ -1,23 +1,19 @@
 const nsfw = require('nsfw'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    _ = require('lodash');
 
 let mem;
 
 
 class Watcher {
 
-    constructor(dir, cb, opts) {
+    constructor(dir, cb) {
         let self = this;
 
         cb = typeof cb == 'function' ? cb : function(e) {
             console.log({ e });
         }
-
-        self.opts = Object.assign({
-            ignore_git: false,
-            optimize_events: false
-        }, opts);
 
         self.nsfw_actions = {
             0: "created",
@@ -27,28 +23,6 @@ class Watcher {
         }
 
 
-        if (self.opts.optimize_events) {
-            // memoize common functions
-            mem = mem || require('mem');
-
-            self.compact_events = mem((o) => {
-
-                let file_path;
-                file_path = path.join(o.directory, o.file);
-
-                return {
-                    [file_path]: Object.assign(o, {
-                        file_path,
-                        action_name: self.nsfw_actions[o.action]
-                    })
-                }
-
-            }, {
-                cacheKey: arguments_ => JSON.stringify(arguments_[0])
-            });
-
-        }
-
         self.dir = path.resolve(dir);
         self.watch(cb);
 
@@ -57,26 +31,22 @@ class Watcher {
 
     handle_events(events, cb) {
 
+
+
         let self = this;
 
-        if (self.opts.optimize_events) {
-            // optimize
-            events = events
-                .filter(o => {
-                    // ignore the git folder
-                    return !self.opts.ignore_git || (!/.\.git.?/.test(o.directory) && !/\.git/.test(o.file))
-                })
-                .map((o) => {
-                    return self.compact_events(o)
-                })
-                .reduce((a, b) => Object.assign(a, b), {})
+        events = events.map((o) => {
+            o.action_name = self.nsfw_actions[o.action]
+            return o
+        })
 
-            //return as array
-            events = Object.values(events)
-        }
+        // Use Lodash to reduce duplicate events...
+        let grp = _.groupBy(events, (o) => _.values(_.pick(o, 'action', 'directory', 'file', 'newFile')).join('-'));
 
+        events = _.values(grp).map(_.first)
+
+        // console.log(events);
         if (events.length) cb(null, events);
-        // else cb(null)
 
     }
 
@@ -134,10 +104,10 @@ class Watcher {
 
 // let watcher
 
-function watch(dir, cb, opts) {
+function watch(dir, cb) {
 
     // init watcher
-    let watcher = new Watcher(dir, cb, opts);
+    let watcher = new Watcher(dir, cb);
 
     // manage safe exit
     process.on('uncaughtException', function(a) {

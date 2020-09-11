@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/mugendi/slimwatch#readme",
   "dependencies": {
+    "lodash": "^4.17.20",
     "mem": "^6.1.1",
     "nsfw": "^2.0.0"
   }
