@@ -91,9 +91,12 @@ class Watcher {
 
     safe_exit(a) {
         let self = this;
-        // console.log(self.dir);
-        // stop watcher
-        self.watcher.stop();
+
+        if (self.watcher) {
+            // stop watcher
+            self.watcher.stop();
+        }
+
     }
 
 
