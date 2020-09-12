@@ -85,16 +85,16 @@ class Watcher {
     }
 
 
-    stop() {
-        return this.watcher.stop()
+    async stop() {
+        return await this.watcher.stop().catch(console.error)
     }
 
-    safe_exit(a) {
+    async safe_exit(a) {
         let self = this;
 
         if (self.watcher) {
             // stop watcher
-            self.watcher.stop();
+            await self.watcher.stop()
         }
 
     }
