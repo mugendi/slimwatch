@@ -119,6 +119,8 @@ function watch(dir, cb) {
         .on('SIGINT', function(a) {
             watcher.safe_exit(a)
         });
+
+    return watcher;
 }
 
 module.exports = watch;
