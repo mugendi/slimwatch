@@ -94,8 +94,6 @@ class Watcher {
         // console.log(self.dir);
         // stop watcher
         self.watcher.stop();
-        //exit process
-        process.exit();
     }
 
 
