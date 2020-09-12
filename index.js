@@ -3,7 +3,7 @@ const nsfw = require('nsfw'),
     fs = require('fs'),
     _ = require('lodash');
 
-let mem;
+let mem, watchers = [];
 
 
 class Watcher {
@@ -89,39 +89,49 @@ class Watcher {
         return await this.watcher.stop().catch(console.error)
     }
 
-    async safe_exit(a) {
-        let self = this;
-
-        if (self.watcher) {
-            // stop watcher
-            await self.watcher.stop()
-        }
-
-    }
-
-
 }
 
 
-// let watcher
+
 
 function watch(dir, cb) {
 
-    // init watcher
-    let watcher = new Watcher(dir, cb);
+    let watcher = _.find(watchers, { dir });
 
-    // manage safe exit
-    process.on('uncaughtException', function(a) {
-            watcher.safe_exit(a)
-        })
-        .on('SIGTERM', function(a) {
-            watcher.safe_exit(a)
-        })
-        .on('SIGINT', function(a) {
-            watcher.safe_exit(a)
-        });
+    if (!watcher) {
+        console.log(`Adding watcher for ${dir}`);
+        // init watcher
+        watcher = new Watcher(dir, cb);
+        watchers.push(watcher);
+    }
+
+    // console.log(watchers.length, 'watchers...');
 
     return watcher;
 }
+
+
+function safe_exit(exitReason) {
+    let self = this;
+
+    // console.log({ exitReason });
+
+    while (watchers.length) {
+        w = watchers.shift();
+        w.stop().catch(console.error)
+    }
+
+}
+
+// manage safe exit
+process.on('uncaughtException', function() {
+        safe_exit('uncaughtException')
+    })
+    .on('SIGTERM', function() {
+        safe_exit('SIGTERM')
+    })
+    .on('SIGINT', function() {
+        safe_exit('SIGINT')
+    });
 
 module.exports = watch;
