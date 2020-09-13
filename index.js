@@ -86,7 +86,7 @@ class Watcher {
 
 
     async stop() {
-        return await this.watcher.stop().catch(console.error)
+        return this.watcher && await this.watcher.stop().catch(console.error)
     }
 
 }
@@ -99,7 +99,7 @@ function watch(dir, cb) {
     let watcher = _.find(watchers, { dir });
 
     if (!watcher) {
-        console.log(`Adding watcher for ${dir}`);
+        // console.log(`Adding watcher for ${dir}`);
         // init watcher
         watcher = new Watcher(dir, cb);
         watchers.push(watcher);
